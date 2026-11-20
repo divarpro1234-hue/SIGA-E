@@ -1,0 +1,43 @@
+{
+  "name": "@siga-e/api",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Base técnica de la API Express de SIGA-E; sin módulos funcionales implementados.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "pnpm prisma:generate && tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "m1:admin-bootstrap": "tsx scripts/m1-production-admin-bootstrap.ts initialize-admin",
+    "check": "pnpm prisma:validate && pnpm typecheck",
+    "test": "vitest run --config vitest.m4-offline.config.ts",
+    "test:watch": "vitest",
+    "prisma:format": "prisma format --config prisma7.config.ts",
+    "prisma:generate": "prisma generate --config prisma7.config.ts",
+    "prisma:validate": "prisma validate --config prisma7.config.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "@stellar/stellar-sdk": "17.3.0",
+    "express": "5.3.0",
+    "jose": "6.2.12",
+    "pg": "8.23.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "@types/supertest": "7.2.1",
+    "prisma": "7.10.0",
+    "supertest": "7.3.1",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}

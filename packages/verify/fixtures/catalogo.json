@@ -1,0 +1,27 @@
+{
+  "claves": [
+    {
+      "kid": "fixture-active-2026",
+      "estado": "activa",
+      "validFrom": "2026-10-01T00:00:00Z",
+      "publicJwk": {
+        "kty": "EC",
+        "x": "I8fQQsYN1jhaEg83_liBBCk49i4Hmzy5gHRjJm890is",
+        "y": "pwodOGj5geUdeN09qHwZg9-KZ7U7GzR1fm7ob3DdXl8",
+        "crv": "P-256"
+      }
+    },
+    {
+      "kid": "fixture-revoked-2026",
+      "estado": "revocada",
+      "validFrom": "2026-10-01T00:00:00Z",
+      "revokedAt": "2026-10-09T12:15:00Z",
+      "publicJwk": {
+        "kty": "EC",
+        "x": "IKdHswYZS6PCcRlt2WHq876Mk3zaDRC2epBxOZlB8t8",
+        "y": "qqbSrSjnUJHZMFRF5gf37_qyh5Yb_5g14k9mN3BPpTw",
+        "crv": "P-256"
+      }
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+/* SIGA-E · Estilos de Demostración (demo.css) - SIGA-E SIGNATURE.
+   Dark mode sofisticado, tarjetas con borde hairline y elevación controlada. */
+
+.demo-seccion {
+  display: grid;
+  gap: 16px;
+}
+
+.demo-hero-compacto {
+  margin-bottom: 2px;
+}
+
+.demo-hero {
+  display: grid;
+  gap: 16px;
+  background: var(--c-superficie);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-grande);
+  padding: 24px;
+}
+
+.demo-banner-compacto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 8px 14px;
+}
+
+.demo-banner-texto {
+  font-size: 0.8125rem;
+  color: var(--c-tinta-suave);
+}
+
+.demo-btn-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-family: var(--f-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-acento-violeta);
+  background: rgba(152, 132, 246, 0.1);
+  border: 1px solid rgba(152, 132, 246, 0.35);
+  border-radius: var(--r-chico);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--t-color);
+}
+
+.demo-btn-inline:hover {
+  background: rgba(152, 132, 246, 0.2);
+  border-color: var(--c-acento-violeta);
+}
+
+.demo-tag-ambiente {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-tecnica);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-acento-cian);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.demo-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-acento-cian);
+  box-shadow: 0 0 6px var(--c-acento-cian);
+}
+
+.demo-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.demo-subtitulo {
+  font-size: 0.9375rem;
+  color: var(--c-tinta-suave);
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+.demo-banner-aviso {
+  background: rgba(255, 176, 32, 0.08);
+  border: 1px solid rgba(255, 176, 32, 0.25);
+  border-left: 4px solid var(--c-alerta);
+  border-radius: var(--r-medio);
+  padding: 12px 16px;
+  font-size: 0.8125rem;
+  color: var(--c-tinta-suave);
+  line-height: 1.5;
+  display: grid;
+  gap: 6px;
+}
+
+.demo-banner-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-alerta);
+  font-family: var(--f-tecnica);
+  font-size: 0.8125rem;
+}
+
+/* Buscador en la Lista Pública */
+.demo-controles {
+  display: flex;
+  gap: 12px;
+}
+
+.demo-search-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.demo-search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--c-tinta-muted);
+  pointer-events: none;
+}
+
+.demo-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 90px 0 38px;
+  background: var(--c-superficie);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-medio);
+  color: var(--c-tinta);
+  font-family: var(--f-ui);
+  font-size: 0.875rem;
+  transition: all var(--t-color);
+}
+
+.demo-search-input:focus {
+  outline: none;
+  border-color: var(--c-acento-cian);
+  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.18);
+}
+
+.demo-search-input::placeholder {
+  color: var(--c-tinta-muted);
+}
+
+.demo-conteo-badge {
+  position: absolute;
+  right: 12px;
+  font-family: var(--f-tecnica);
+  font-size: 0.75rem;
+  color: var(--c-acento-cian);
+  background: rgba(0, 210, 255, 0.1);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Tarjeta BloqueLista interna */
+.bloque-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.bloque-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.badge-vigencia {
+  font-family: var(--f-tecnica);
+  font-size: 0.75rem;
+  color: var(--c-tinta-suave);
+  background: var(--c-fondo);
+  border: 1px solid var(--c-linea);
+  padding: 2px 8px;
+  border-radius: var(--r-chico);
+}
+
+.bloque-cta {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--c-acento-cian);
+  letter-spacing: 0.2px;
+}
+
+.demo-vacio {
+  padding: 32px;
+  text-align: center;
+  color: var(--c-tinta-muted);
+  font-size: 0.9375rem;
+  background: var(--c-superficie);
+  border: 1px dashed var(--c-linea);
+  border-radius: var(--r-medio);
+}
+
+/* Casos Demo en Verificar */
+.demo-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.demo-caso {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  text-align: start;
+  background: var(--c-superficie);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-medio);
+  color: var(--c-tinta);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all var(--t-color);
+}
+
+.demo-caso:hover {
+  background: var(--c-superficie-elevada);
+  border-color: var(--c-acento-cian);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+}

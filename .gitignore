@@ -1,0 +1,49 @@
+# Entorno y secretos (ninguno debe versionarse)
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.p12
+*.pfx
+*.key
+*.seed
+*.mnemonic
+**/.stellar/
+**/.config/stellar/
+*.backup
+*.bak
+*.dump
+*.sql.gz
+*.db
+*.sqlite
+*.sqlite3
+
+# Entornos Node / frontend
+node_modules/
+.pnpm-store/
+dist/
+.sigae-local-pg/
+artifacts/
+apps/web/.provisional-backup/
+build/
+coverage/
+playwright-report/
+test-results/
+.vite/
+.next/
+.vercel/
+*.log
+*.tsbuildinfo
+
+# Código generado localmente por Prisma
+apps/api/src/generated/prisma/
+
+# Rust / Soroban
+target/
+
+# Local/IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

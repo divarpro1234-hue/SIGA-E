@@ -1,0 +1,87 @@
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { esRutaInterna, normalizarRuta, redireccion, resolverRuta, RUTAS, tituloDocumento, TITULOS } from './router.mjs';
+
+test('normalizarRuta: barra inicial, sin barra final, sin query ni fragmento', () => {
+  assert.equal(normalizarRuta('/'), '/');
+  assert.equal(normalizarRuta(''), '/');
+  assert.equal(normalizarRuta('verificar'), '/verificar');
+  assert.equal(normalizarRuta('/verificar/'), '/verificar');
+  assert.equal(normalizarRuta('/verificar///resultado//'), '/verificar/resultado');
+  assert.equal(normalizarRuta('/verificar?jws=abc'), '/verificar');
+  assert.equal(normalizarRuta('/verificar/resultado#x'), '/verificar/resultado');
+  assert.equal(normalizarRuta('?solo=query'), '/');
+});
+
+test('normalizarRuta: entradas que no son cadena caen en la raíz', () => {
+  for (const v of [undefined, null, 5, {}, []]) assert.equal(normalizarRuta(v), '/');
+});
+
+test('resolverRuta: rutas conocidas', () => {
+  assert.deepEqual(resolverRuta('/'), { nombre: 'inicio', ruta: '/', conocida: true });
+  assert.deepEqual(resolverRuta('/verificar'), { nombre: 'verificar', ruta: '/verificar', conocida: true });
+  assert.deepEqual(resolverRuta('/verificar/resultado/'), {
+    nombre: 'resultado',
+    ruta: '/verificar/resultado',
+    conocida: true,
+  });
+});
+
+test('resolverRuta: ruta desconocida', () => {
+  for (const v of ['/nada', '/Verificar', '/verificar/otro', '/verificar/resultado/x', '/index.html', '/%76erificar']) {
+    const r = resolverRuta(v);
+    assert.equal(r.nombre, 'no-existe', v);
+    assert.equal(r.conocida, false, v);
+  }
+});
+
+test('resolverRuta: la ruta de origen externo no resuelve', () => {
+  assert.equal(resolverRuta('//evil.example/verificar').nombre, 'no-existe');
+  assert.equal(resolverRuta('https://evil.example/').nombre, 'no-existe');
+});
+
+test('redireccion: resultado sin resultado en memoria vuelve a Verificar', () => {
+  assert.equal(redireccion('resultado', false), RUTAS.verificar);
+  assert.equal(redireccion('resultado', true), null);
+  assert.equal(redireccion('verificar', false), null);
+  assert.equal(redireccion('inicio', false), null);
+  assert.equal(redireccion('no-existe', false), null);
+});
+
+test('RUTAS y TITULOS no llevan parámetros', () => {
+  for (const r of Object.values(RUTAS)) assert.doesNotMatch(r, /[?#:]/);
+  assert.equal(tituloDocumento('no-existe'), `${TITULOS['no-existe']} · SIGA-E`);
+});
+
+// ---- D08A: portal interno ----
+
+test('resolverRuta: rutas internas conocidas, sin parámetros', () => {
+  assert.equal(resolverRuta('/interno').nombre, 'portal');
+  assert.equal(resolverRuta('/interno/').nombre, 'portal');
+  assert.equal(resolverRuta('/interno/acceso').nombre, 'acceso');
+  assert.equal(resolverRuta('/interno/acceso/codigo').nombre, 'codigo');
+  assert.equal(resolverRuta('/interno/alertas').nombre, 'portal-alertas');
+  assert.equal(resolverRuta('/interno/revision').nombre, 'portal-revision');
+  assert.equal(resolverRuta('/interno/administracion').nombre, 'portal-administracion');
+  // El desafío o un rol en la URL no cambian nada: se descartan con la query y el fragmento.
+  assert.equal(resolverRuta('/interno/acceso/codigo?challengeId=x#rol=ADMIN').nombre, 'codigo');
+  for (const v of ['/Interno', '/interno/usuarios', '/interno/acceso/codigo/x', '/interno/ADMIN']) {
+    assert.equal(resolverRuta(v).nombre, 'no-existe', v);
+  }
+});
+
+test('esRutaInterna: separa los dos portales', () => {
+  for (const n of ['acceso', 'codigo', 'portal', 'portal-alertas', 'portal-revision', 'portal-administracion']) assert.equal(esRutaInterna(n), true, n);
+  for (const n of ['inicio', 'verificar', 'resultado', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
+});
+
+test('redireccion: el código TOTP sin desafío en memoria vuelve al acceso', () => {
+  assert.equal(redireccion('codigo', false, false), RUTAS.acceso);
+  assert.equal(redireccion('codigo', false, true), null);
+  assert.equal(redireccion('portal', false, false), null);
+  assert.equal(redireccion('acceso', false, false), null);
+});
+
+test('TITULOS cubre todas las rutas', () => {
+  for (const n of Object.keys(RUTAS)) assert.equal(typeof TITULOS[n], 'string', n);
+});

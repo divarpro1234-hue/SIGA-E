@@ -1,0 +1,46 @@
+{
+  "ahora": "2026-10-09T12:30:00Z",
+  "uso": "verificarJws(fixture.jws, catalogo, new Date(manifest.ahora))",
+  "fixtures": [
+    {
+      "name": "valid-current",
+      "file": "valid-current.json",
+      "firma": "VALIDA",
+      "vigencia": "VIGENTE",
+      "kid": "fixture-active-2026",
+      "jwsHash": "226a48cc28661db3fd8d241c4667e576cf8ca7600e3c230fc17ca4df05a469e3"
+    },
+    {
+      "name": "tampered",
+      "file": "tampered.json",
+      "firma": "INVALIDA",
+      "vigencia": "DESCONOCIDA",
+      "kid": "fixture-active-2026",
+      "jwsHash": "7248a98efceb3a90c21e509619d32d9b82138e95c7486ac36c233ff2144b3bb6"
+    },
+    {
+      "name": "expired",
+      "file": "expired.json",
+      "firma": "VALIDA",
+      "vigencia": "VENCIDA",
+      "kid": "fixture-active-2026",
+      "jwsHash": "36b2eff48cef52807ead03ce87a0fa64ca5e32135d0ff09b3d02ad5452325bea"
+    },
+    {
+      "name": "revoked",
+      "file": "revoked.json",
+      "firma": "CLAVE_REVOCADA",
+      "vigencia": "DESCONOCIDA",
+      "kid": "fixture-revoked-2026",
+      "jwsHash": "eba79299a06bd297da85e2bae9d5f8e71ab21249316c159655180e2ca858cb28"
+    },
+    {
+      "name": "unknown-kid",
+      "file": "unknown-kid.json",
+      "firma": "CLAVE_DESCONOCIDA",
+      "vigencia": "DESCONOCIDA",
+      "kid": "fixture-unknown-2026",
+      "jwsHash": "225695aaecda0c2496d93ab8f7903d86df76e988f17f89033b61974fccc29d1d"
+    }
+  ]
+}

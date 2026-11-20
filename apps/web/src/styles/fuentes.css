@@ -1,0 +1,35 @@
+/* SIGA-E · fuentes autoalojadas (woff2), importadas desde src/main.tsx (D06a).
+   Archivos y licencias en public/fonts/ (SIL OFL 1.1): Atkinson Hyperlegible 400 y 700, IBM Plex Mono 400 y 500.
+   Sin CDN ni Google Fonts: font-src 'self'. font-display: swap con respaldo de sistema en tokens.css. */
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/IBMPlexMono-Medium.woff2") format("woff2");
+}

@@ -1,0 +1,100 @@
+.live-seccion {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  background: var(--c-superficie);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-grande);
+}
+
+.live-cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.live-cabecera h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.live-etiqueta {
+  margin: 0 0 4px;
+  color: var(--c-acento-cian);
+  font-family: var(--f-tecnica);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.live-nota {
+  margin: 0;
+  color: var(--c-tinta-suave);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.live-lista {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.live-tarjeta {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  color: var(--c-tinta);
+  text-align: start;
+  background: var(--c-fondo);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-medio);
+  cursor: pointer;
+}
+
+.live-tarjeta:hover:not(:disabled),
+.live-tarjeta:focus-visible {
+  border-color: var(--c-acento-cian);
+}
+
+.live-tarjeta:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.live-tarjeta-cabecera,
+.live-tarjeta-pie {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.live-estado {
+  color: var(--c-acento-cian);
+  font-family: var(--f-tecnica);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.live-tarjeta-pie {
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--c-tinta-suave);
+  font-size: 0.78rem;
+}
+
+.live-tarjeta-pie span:last-child {
+  color: var(--c-acento-cian);
+  font-weight: 600;
+}
+
+.live-error {
+  margin: 0;
+  color: var(--c-alerta);
+}

@@ -1,0 +1,97 @@
+/* SIGA-E · Sistema de diseño SIGA-E SIGNATURE (Concepto D - Signal Room Evolution).
+   Dark mode sofisticado, precisión geométrica hairline 1px, acentos cian, violeta y esmeralda.
+   Tokens para portal público y portal interno.
+   Fuentes autoalojadas: Atkinson Hyperlegible e IBM Plex Mono (fuentes.css). */
+
+:root {
+  color-scheme: dark;
+
+  /* Paleta Base: Dark Mode Sofisticado */
+  --c-fondo: #080c14;            /* Fondo base canvas con profundidad */
+  --c-superficie: #101722;       /* Superficie principal: tarjetas, barras, paneles */
+  --c-superficie-elevada: #192333;/* Items activos, hover, botones secundarios */
+  --c-superficie-hover: #212e42;
+  --c-panel: #0d131e;
+  --c-code: #06090f;
+
+  /* Texto y Tintas */
+  --c-tinta: #f0f4fc;            /* Texto principal de alto contraste */
+  --c-tinta-suave: #9aa9c2;      /* Texto secundario y etiquetas */
+  --c-tinta-muted: #64748b;      /* Metadatos secundarios, placeholders */
+  --c-sobre-tinta: #ffffff;
+  --c-mono: #c8d7ef;
+
+  /* Bordes de Precisión Geométrica */
+  --c-linea: #1c2738;            /* Filetes finos geométricos de 1px */
+  --c-linea-suave: #2a3a52;      /* Bordes estructurales elevados */
+  --c-linea-fuerte: #3b4e6b;
+  --c-borde-glow: rgba(0, 210, 255, 0.35);
+
+  /* Acentos Tecnológicos y Semánticos */
+  --c-foco: #00d2ff;             /* Acento Tecnológico Principal (Cian Nova) */
+  --c-acento-cian: #00d2ff;
+  --c-acento-violeta: #9884f6;   /* Acento Premium (Roles, badges) */
+  --c-ok: #00e599;               /* Validación Positiva (Esmeralda) */
+  --c-alerta: #ffb020;           /* Advertencia / Atención / Simulacro (Ámbar) */
+  --c-mal: #ff3b5c;              /* Criticidad / Extreme / Error (Carmesí) */
+  --c-neutro: #64748b;           /* Neutro / Sin procesar */
+
+  /* Severidades CAP */
+  --c-sev-extreme: #ff3b5c;
+  --c-sev-severe: #ffb020;
+  --c-sev-moderate: #00d2ff;
+  --c-sev-minor: #9884f6;
+
+  /* Marca de control en texto ajeno */
+  --c-marca-fondo: rgba(255, 176, 32, 0.15);
+  --c-marca-borde: #ffb020;
+
+  /* Tipografía */
+  --f-ui: "Atkinson Hyperlegible", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --f-tecnica: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --t-chica: 0.875rem;           /* 14px */
+  --t-base: 1rem;                /* 16px */
+  --t-grande: 1.25rem;           /* 20px */
+  --t-estado: 1.5rem;            /* 24px */
+  --t-titulo: 1.875rem;          /* 30px */
+  --lh-base: 1.5;
+  --lh-corto: 1.2;
+
+  /* Espacios */
+  --e-1: 0.25rem;                /* 4px */
+  --e-2: 0.5rem;                 /* 8px */
+  --e-3: 1rem;                   /* 16px */
+  --e-4: 1.25rem;                /* 20px */
+  --e-5: 1.75rem;                /* 28px */
+  --e-6: 2.5rem;                 /* 40px */
+  --e-7: 4rem;                   /* 64px */
+
+  /* Formas y Bordes */
+  --r-chico: 4px;
+  --r-medio: 6px;
+  --r-grande: 8px;
+  --borde: 1px;
+  --borde-fino: 1px;
+  --barra: 4px;
+
+  /* Objetivos táctiles: 44 px mínimo (WCAG 2.2 AA) */
+  --tactil: 2.75rem;             /* 44px */
+  --tactil-principal: 3rem;      /* 48px */
+
+  /* Foco visible con resplandor cian */
+  --foco-grosor: 2px;
+  --foco-separacion: 2px;
+
+  /* Ancho de Layout Amplio y Responsive (en lugar de 38rem limitante) */
+  --ancho: min(100%, 78rem);     /* ~1248px máximo para desktop holgado */
+  --ancho-lectura: 52rem;        /* 832px para textos y lecturas */
+
+  /* Safe area (viewport-fit=cover) */
+  --safe-arriba: env(safe-area-inset-top, 0px);
+  --safe-derecha: env(safe-area-inset-right, 0px);
+  --safe-abajo: env(safe-area-inset-bottom, 0px);
+  --safe-izquierda: env(safe-area-inset-left, 0px);
+
+  /* Transiciones permitidas */
+  --t-color: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}

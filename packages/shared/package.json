@@ -1,0 +1,9 @@
+{
+  "name": "@siga-e/shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Placeholder para contratos y utilidades compartidas sin secretos.",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  }
+}

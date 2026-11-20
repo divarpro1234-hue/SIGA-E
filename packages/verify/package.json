@@ -1,0 +1,27 @@
+{
+  "name": "@siga-e/verify",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Verificacion local de alertas SIGA-E sin red ni dependencias de servidor.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run test",
+    "fixtures:generate": "pnpm build && node scripts/generate-fixtures.mjs",
+    "check": "pnpm typecheck && pnpm test"
+  },
+  "dependencies": {
+    "jose": "6.2.12"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}
