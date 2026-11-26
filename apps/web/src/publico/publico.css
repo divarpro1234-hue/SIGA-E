@@ -99,6 +99,128 @@
   color: var(--c-alerta);
 }
 
+.live-elemento {
+  display: grid;
+  gap: 8px;
+}
+
+.live-qr-accion {
+  justify-self: start;
+  padding: 8px 12px;
+  color: var(--c-acento-cian);
+  background: transparent;
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-medio);
+  cursor: pointer;
+  font: inherit;
+}
+
+.live-qr-accion:hover,
+.live-qr-accion:focus-visible {
+  border-color: var(--c-acento-cian);
+}
+
+.live-qr-accion:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.qr-dialogo {
+  width: min(94vw, 32rem);
+  max-width: 32rem;
+  max-height: min(92dvh, 48rem);
+  padding: 22px;
+  overflow: auto;
+  color: var(--c-tinta);
+  background: var(--c-superficie);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-grande);
+}
+
+.qr-dialogo::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.qr-dialogo-cabecera,
+.qr-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.qr-dialogo-cabecera h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.qr-boton-cerrar {
+  padding: 8px 10px;
+  color: var(--c-tinta);
+  background: var(--c-superficie-elevada);
+  border: 1px solid var(--c-linea);
+  border-radius: var(--r-medio);
+  cursor: pointer;
+  font: inherit;
+}
+
+.qr-simulacro {
+  margin: 16px 0 8px;
+  padding: 10px 12px;
+  color: #1b1200;
+  background: #ffbf47;
+  border-radius: var(--r-medio);
+  font-weight: 800;
+  text-align: center;
+}
+
+.qr-identificador {
+  margin: 8px 0 14px;
+  overflow-wrap: anywhere;
+}
+
+.qr-imagen {
+  display: grid;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 16px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.qr-imagen svg {
+  display: block;
+  width: min(240px, 68vw);
+  height: auto;
+}
+
+.qr-enlace-rotulo {
+  margin: 0 0 4px;
+  color: var(--c-tinta-suave);
+  font-size: 0.875rem;
+}
+
+.qr-enlace {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--c-acento-cian);
+  overflow-wrap: anywhere;
+}
+
+.qr-acciones {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.qr-estado-copia {
+  min-height: 1.5em;
+  margin: 10px 0 0;
+  color: var(--c-tinta-suave);
+}
+
 .pasaporte-seccion h2 {
   margin: 0;
   color: #fff;
@@ -145,6 +267,19 @@
 }
 
 @media (max-width: 520px) {
+  .qr-dialogo {
+    padding: 16px;
+  }
+
+  .qr-dialogo-cabecera {
+    align-items: flex-start;
+  }
+
+  .qr-acciones {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
   .pasaporte-datos {
     grid-template-columns: minmax(0, 1fr);
     gap: 3px;

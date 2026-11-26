@@ -1,10 +1,9 @@
+import { esUuidPublico } from './uuid-publico.mjs';
+
 const BASE_API = '/api/v1/public';
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const HASH = /^[a-f0-9]{64}$/;
 
-export function esUuidPublico(value: unknown): value is string {
-  return typeof value === 'string' && UUID.test(value);
-}
+export { esUuidPublico };
 
 export interface AlertaPublica {
   id: string;

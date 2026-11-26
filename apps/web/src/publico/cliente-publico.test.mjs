@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { obtenerAlertaPublica } from './cliente-publico.ts';
+import { listarAlertasPublicas, obtenerAlertaPublica } from './cliente-publico.ts';
 
 const ID = '00000000-0000-4000-8000-000000000001';
 const DETALLE = {
@@ -107,6 +107,16 @@ test('un fallo de red y una respuesta malformada no producen un detalle público
 
     globalThis.fetch = async () => new Response('{', { status: 200 });
     assert.deepEqual(await obtenerAlertaPublica(ID), { ok: false, motivo: 'respuesta-invalida' });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('una lista pública vacía permanece vacía y no fabrica alertas para generar QR', async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => respuesta(200, { items: [], page: 1, total: 0 });
+  try {
+    assert.deepEqual(await listarAlertasPublicas(), { ok: true, items: [], total: 0 });
   } finally {
     globalThis.fetch = originalFetch;
   }

@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { navegar } from '../app/ruta';
 import { RUTAS } from '../app/router.mjs';
 import { ejecutarVerificacion } from '../app/verificacion';
 import { verificadorLocal } from '../adaptadores/verificador-local';
 import { EstadoCarga, EstadoError, EstadoVacio } from '../interno/signature/Componentes';
 import { listarAlertasPublicas, obtenerAlertaPublica, type AlertaPublica } from './cliente-publico';
+import { CodigoQRAlerta } from './CodigoQRAlerta';
+import { construirUrlPasaporte } from './pasaporte-qr.mjs';
 import './publico.css';
 
 function mensajeFallo(motivo: 'no-encontrada' | 'no-disponible' | 'error' | 'respuesta-invalida'): string {
@@ -19,6 +21,8 @@ export function BandejaPublicaLive() {
   const [alertas, setAlertas] = useState<AlertaPublica[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [abriendo, setAbriendo] = useState<string | null>(null);
+  const [qr, setQr] = useState<{ alerta: AlertaPublica; enlace: string } | null>(null);
+  const disparadorQr = useRef<HTMLButtonElement | null>(null);
 
   const cargar = async () => {
     setEstado('cargando');
@@ -56,40 +60,72 @@ export function BandejaPublicaLive() {
     navegar(RUTAS.resultado);
   };
 
+  const mostrarQr = (alerta: AlertaPublica, disparador: HTMLButtonElement) => {
+    setError(null);
+    try {
+      const enlace = construirUrlPasaporte(alerta.id, window.location.origin);
+      disparadorQr.current = disparador;
+      setQr({ alerta, enlace });
+    } catch {
+      setError('No se pudo generar una URL pública segura para esta alerta.');
+    }
+  };
+
   return (
-    <section className="live-seccion" aria-labelledby="alertas-live-titulo">
-      <div className="live-cabecera">
-        <div>
-          <p className="live-etiqueta">DATOS LIVE · API SIGA-E</p>
-          <h2 id="alertas-live-titulo">Alertas publicadas</h2>
+    <>
+      <section className="live-seccion" aria-labelledby="alertas-live-titulo">
+        <div className="live-cabecera">
+          <div>
+            <p className="live-etiqueta">DATOS LIVE · API SIGA-E</p>
+            <h2 id="alertas-live-titulo">Alertas publicadas</h2>
+          </div>
+          <span className="simulacro">SIMULACRO</span>
         </div>
-        <span className="simulacro">SIMULACRO</span>
-      </div>
-      <p className="live-nota">
-        Solo se muestran alertas que la API confirmó como publicadas tras firma y anclaje. La PWA no consulta Stellar directamente.
-      </p>
-      {estado === 'cargando' ? <EstadoCarga texto="Consultando alertas publicadas en la API…" /> : null}
-      {estado === 'error' && error ? <EstadoError mensaje={error} onReintentar={() => void cargar()} /> : null}
-      {estado === 'vacia' ? <EstadoVacio mensaje="La API no tiene alertas publicadas disponibles." /> : null}
-      {estado === 'lista' ? (
-        <ul className="live-lista" aria-label="Alertas publicadas desde la API">
-          {alertas.map((alerta) => (
-            <li key={alerta.id}>
-              <button type="button" className="live-tarjeta" onClick={() => void abrir(alerta)} disabled={abriendo !== null}>
-                <span className="live-tarjeta-cabecera">
-                  <span className="live-estado">PUBLICADA</span>
-                  <span className="id">{alerta.identifier}</span>
-                </span>
-                <span className="live-tarjeta-pie">
-                  <span>Firma: pendiente de verificación local</span>
-                  <span>{abriendo === alerta.id ? 'Verificando…' : 'Ver detalle →'}</span>
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <p className="live-nota">
+          Solo se muestran alertas que la API confirmó como publicadas tras firma y anclaje. La PWA no consulta Stellar directamente.
+        </p>
+        {estado === 'cargando' ? <EstadoCarga texto="Consultando alertas publicadas en la API…" /> : null}
+        {estado === 'error' && error ? <EstadoError mensaje={error} onReintentar={() => void cargar()} /> : null}
+        {estado === 'vacia' ? <EstadoVacio mensaje="La API no tiene alertas publicadas disponibles." /> : null}
+        {estado === 'lista' ? (
+          <ul className="live-lista" aria-label="Alertas publicadas desde la API">
+            {alertas.map((alerta) => (
+              <li key={alerta.id} className="live-elemento">
+                <button type="button" className="live-tarjeta" onClick={() => void abrir(alerta)} disabled={abriendo !== null}>
+                  <span className="live-tarjeta-cabecera">
+                    <span className="live-estado">PUBLICADA</span>
+                    <span className="id">{alerta.identifier}</span>
+                  </span>
+                  <span className="live-tarjeta-pie">
+                    <span>Firma: pendiente de verificación local</span>
+                    <span>{abriendo === alerta.id ? 'Verificando…' : 'Ver detalle →'}</span>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className="live-qr-accion"
+                  onClick={(event) => mostrarQr(alerta, event.currentTarget)}
+                  disabled={abriendo !== null}
+                  aria-label={`Ver código QR de ${alerta.identifier}`}
+                >
+                  Ver código QR
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {error && estado !== 'error' ? <p className="live-error" role="alert">{error}</p> : null}
+      </section>
+      {qr ? (
+        <CodigoQRAlerta
+          alerta={qr.alerta}
+          enlace={qr.enlace}
+          origen={window.location.origin}
+          disparador={disparadorQr.current}
+          onCerrar={() => setQr(null)}
+          onAbrirPasaporte={(ruta) => navegar(ruta)}
+        />
       ) : null}
-      {error && estado !== 'error' ? <p className="live-error" role="alert">{error}</p> : null}
-    </section>
+    </>
   );
 }
