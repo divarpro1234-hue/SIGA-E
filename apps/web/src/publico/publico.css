@@ -99,6 +99,29 @@
   color: var(--c-alerta);
 }
 
+.demo-qr-local h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.demo-qr-local p {
+  margin-block: 0;
+  line-height: 1.5;
+}
+
+.demo-qr-aviso {
+  padding: 12px;
+  color: #1b1200;
+  background: #ffbf47;
+  border-radius: var(--r-medio);
+  font-weight: 800;
+}
+
+.demo-qr-local code {
+  overflow-wrap: anywhere;
+}
+
 .live-elemento {
   display: grid;
   gap: 8px;

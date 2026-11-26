@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import type { AlertaPublica } from './cliente-publico';
 import {
@@ -10,7 +10,7 @@ import {
 } from './pasaporte-qr.mjs';
 
 interface Props {
-  alerta: AlertaPublica;
+  alerta: Pick<AlertaPublica, 'id' | 'identifier'>;
   enlace: string;
   origen: string;
   disparador: HTMLButtonElement | null;
@@ -24,13 +24,11 @@ export function CodigoQRAlerta({ alerta, enlace, origen, disparador, onCerrar, o
   const restaurarFoco = useRef(true);
   const [estadoCopia, setEstadoCopia] = useState('');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialogo = dialogoRef.current;
     const botonCerrar = botonCerrarRef.current;
     if (dialogo && botonCerrar) abrirDialogoQr(dialogo, botonCerrar);
-    return () => {
-      if (dialogo) cerrarDialogoQr(dialogo);
-    };
+    // StrictMode replays effect cleanup/setup on mount; closing here fires onClose and clears parent state.
   }, []);
 
   const cerrar = () => {
