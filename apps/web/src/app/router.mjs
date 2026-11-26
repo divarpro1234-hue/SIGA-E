@@ -5,10 +5,10 @@
 // la ruta solo elige la pantalla, y lo que se muestra depende de lo que confirme el servidor.
 
 /**
- * @typedef {'inicio' | 'verificar' | 'resultado'} RutaCiudadana
+ * @typedef {'inicio' | 'verificar' | 'resultado' | 'pasaporte'} RutaCiudadana
  * @typedef {'acceso' | 'codigo' | 'portal' | 'portal-alertas' | 'portal-revision' | 'portal-administracion'} RutaInterna
  * @typedef {RutaCiudadana | RutaInterna | 'no-existe'} NombreRuta
- * @typedef {{ nombre: NombreRuta, ruta: string, conocida: boolean }} RutaResuelta
+ * @typedef {{ nombre: NombreRuta, ruta: string, conocida: boolean, id?: string }} RutaResuelta
  */
 
 /** @type {Readonly<Record<RutaCiudadana | RutaInterna, string>>} */
@@ -16,6 +16,7 @@ export const RUTAS = Object.freeze({
   inicio: '/',
   verificar: '/verificar',
   resultado: '/verificar/resultado',
+  pasaporte: '/alerta',
   acceso: '/interno/acceso',
   codigo: '/interno/acceso/codigo',
   portal: '/interno',
@@ -40,6 +41,7 @@ export const TITULOS = Object.freeze({
   inicio: 'Alertas de simulacro',
   verificar: 'Verificar un mensaje',
   resultado: 'Resultado',
+  pasaporte: 'Pasaporte digital de alerta',
   acceso: 'Acceso interno',
   codigo: 'Código de verificación',
   portal: 'Portal interno',
@@ -75,6 +77,8 @@ export function resolverRuta(entrada) {
   for (const nombre of /** @type {Array<keyof typeof RUTAS>} */ (Object.keys(RUTAS))) {
     if (RUTAS[nombre] === ruta) return { nombre, ruta, conocida: true };
   }
+  const pasaporte = ruta.match(/^\/alerta\/([^/]+)$/);
+  if (pasaporte) return { nombre: 'pasaporte', ruta, conocida: true, id: pasaporte[1] };
   return { nombre: 'no-existe', ruta, conocida: false };
 }
 

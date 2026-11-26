@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { esRutaInterna, normalizarRuta, redireccion, resolverRuta, RUTAS, tituloDocumento, TITULOS } from './router.mjs';
+import { esUuidPublico } from '../publico/cliente-publico.ts';
 
 test('normalizarRuta: barra inicial, sin barra final, sin query ni fragmento', () => {
   assert.equal(normalizarRuta('/'), '/');
@@ -27,6 +28,31 @@ test('resolverRuta: rutas conocidas', () => {
   });
 });
 
+test('resolverRuta: pasaporte público conserva el ID de la ruta para validarlo antes de consultar', () => {
+  const id = '00000000-0000-4000-8000-000000000001';
+  assert.deepEqual(resolverRuta(`/alerta/${id}`), {
+    nombre: 'pasaporte',
+    ruta: `/alerta/${id}`,
+    conocida: true,
+    id,
+  });
+  assert.deepEqual(resolverRuta('/alerta/no-es-uuid'), {
+    nombre: 'pasaporte',
+    ruta: '/alerta/no-es-uuid',
+    conocida: true,
+    id: 'no-es-uuid',
+  });
+  assert.equal(resolverRuta(`/alerta/${id}?jws=no#secreto`).id, id);
+  assert.equal(resolverRuta(`/alerta/${id}/extra`).conocida, false);
+});
+
+test('esUuidPublico: acepta UUID válidos y rechaza valores inválidos o codificados', () => {
+  assert.equal(esUuidPublico('00000000-0000-4000-8000-000000000001'), true);
+  for (const value of ['', 'no-es-uuid', '%30%30%30%30', '00000000-0000-0000-0000-000000000000', null]) {
+    assert.equal(esUuidPublico(value), false);
+  }
+});
+
 test('resolverRuta: ruta desconocida', () => {
   for (const v of ['/nada', '/Verificar', '/verificar/otro', '/verificar/resultado/x', '/index.html', '/%76erificar']) {
     const r = resolverRuta(v);
@@ -51,6 +77,7 @@ test('redireccion: resultado sin resultado en memoria vuelve a Verificar', () =>
 test('RUTAS y TITULOS no llevan parámetros', () => {
   for (const r of Object.values(RUTAS)) assert.doesNotMatch(r, /[?#:]/);
   assert.equal(tituloDocumento('no-existe'), `${TITULOS['no-existe']} · SIGA-E`);
+  assert.equal(tituloDocumento('pasaporte'), `${TITULOS.pasaporte} · SIGA-E`);
 });
 
 // ---- D08A: portal interno ----
@@ -72,7 +99,7 @@ test('resolverRuta: rutas internas conocidas, sin parámetros', () => {
 
 test('esRutaInterna: separa los dos portales', () => {
   for (const n of ['acceso', 'codigo', 'portal', 'portal-alertas', 'portal-revision', 'portal-administracion']) assert.equal(esRutaInterna(n), true, n);
-  for (const n of ['inicio', 'verificar', 'resultado', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
+  for (const n of ['inicio', 'verificar', 'resultado', 'pasaporte', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
 });
 
 test('redireccion: el código TOTP sin desafío en memoria vuelve al acceso', () => {
