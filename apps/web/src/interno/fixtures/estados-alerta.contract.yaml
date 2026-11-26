@@ -1,0 +1,24 @@
+# Test-only contract fragment; no application routes or runtime configuration.
+# Source: components.schemas.AlertState and AnchorState in
+# docs/arquitectura/SIGA-E_API_OpenAPI_v1.2.yaml at commit 34e5a4a (lines 1331-1348).
+# That design document is absent from baseline 375be76; only these two enum contracts are retained.
+components:
+  schemas:
+    AlertState:
+      enum:
+        - DRAFT
+        - PENDING_APPROVAL
+        - REJECTED
+        - READY_TO_SIGN
+        - SIGNING
+        - SIGNED_PENDING_ANCHOR
+        - PUBLISHED
+    AnchorState:
+      enum:
+        - NOT_REQUESTED
+        - PENDING
+        - SUBMITTED
+        - CONFIRMED
+        - RETRYABLE_ERROR
+        - CONFLICT
+        - UNVERIFIABLE

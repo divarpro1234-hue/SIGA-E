@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { aNodos, nombreControl, segmentarTextoAjeno, MAX_GRAFEMAS_POR_DEFECTO } from './texto-ajeno.mjs';
-import { CASOS } from '../../mocks/_shared/datos.js';
+import { CASOS_DEMO } from '../demo/datos-demo.ts';
 
 const controles = (r) => r.segmentos.filter((s) => s.tipo === 'control');
 const textoPlano = (r) => r.segmentos.filter((s) => s.tipo === 'texto').map((s) => s.valor).join('');
@@ -123,8 +123,10 @@ test('entrada enorme: se acota antes de procesar y se marca como recortada', () 
   assert.equal(textoPlano(r).length, MAX_GRAFEMAS_POR_DEFECTO);
 });
 
-test('titular hostil de datos.js: marcas visibles y nada de control en el texto', () => {
-  const titular = CASOS.f.contenido.titular;
+test('titular hostil de los datos de demostración: marcas visibles y nada de control en el texto', () => {
+  const contenido = CASOS_DEMO.f.resultado.contenido;
+  assert.ok(contenido);
+  const titular = contenido.titular;
   assert.equal(Array.from(titular).length, 200);
   const r = segmentarTextoAjeno(titular, { maxGrafemas: 200 });
   assert.deepEqual(codigos(r), ['U+202E', 'U+202C', 'U+2066', 'U+2069']);
@@ -133,7 +135,9 @@ test('titular hostil de datos.js: marcas visibles y nada de control en el texto'
 });
 
 test('descripción hostil: etiquetas HTML y enlaces quedan como texto literal', () => {
-  const r = segmentarTextoAjeno(CASOS.f.contenido.descripcion, { maxGrafemas: 4000 });
+  const contenido = CASOS_DEMO.f.resultado.contenido;
+  assert.ok(contenido);
+  const r = segmentarTextoAjeno(contenido.descripcion, { maxGrafemas: 4000 });
   assert.match(textoPlano(r), /<img src=x onerror=alert\(1\)>/);
   assert.ok(codigos(r).includes('U+0007'));
   assert.ok(codigos(r).includes('U+001B'));

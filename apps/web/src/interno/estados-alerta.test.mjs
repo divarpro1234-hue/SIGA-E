@@ -18,7 +18,7 @@ import {
 } from './estados-alerta.mjs';
 
 test('los estados son exactamente los del contrato (OpenAPI AlertState y AnchorState)', () => {
-  const yaml = readFileSync(new URL('../../../../docs/arquitectura/SIGA-E_API_OpenAPI_v1.2.yaml', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  const yaml = readFileSync(new URL('./fixtures/estados-alerta.contract.yaml', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   const enumDe = (nombre) => {
     const bloque = yaml.split(`\n    ${nombre}:\n`)[1].split(/\n    [A-Z]/)[0];
     return [...bloque.matchAll(/^\s+- ([A-Z_]+)$/gm)].map((m) => m[1]);
