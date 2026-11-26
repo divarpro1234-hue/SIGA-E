@@ -9,6 +9,7 @@ import { Inicio } from './pantallas/Inicio';
 import { NoExiste } from './pantallas/NoExiste';
 import { Resultado } from './pantallas/Resultado';
 import { Verificar } from './pantallas/Verificar';
+import { PasaporteAlerta } from './publico/PasaporteAlerta';
 import { AppInterna } from './interno/AppInterna';
 import { useDesafio } from './interno/sesion';
 
@@ -61,6 +62,7 @@ export function App() {
         {nombre === 'inicio' ? <Inicio /> : null}
         {nombre === 'verificar' ? <Verificar /> : null}
         {nombre === 'resultado' ? <Resultado /> : null}
+        {nombre === 'pasaporte' ? <PasaporteAlerta id={ruta.id ?? ''} /> : null}
         {nombre === 'no-existe' ? <NoExiste /> : null}
       </main>
       <p className="sr-only" role="status" aria-live="polite">

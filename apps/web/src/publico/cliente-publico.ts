@@ -2,6 +2,10 @@ const BASE_API = '/api/v1/public';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const HASH = /^[a-f0-9]{64}$/;
 
+export function esUuidPublico(value: unknown): value is string {
+  return typeof value === 'string' && UUID.test(value);
+}
+
 export interface AlertaPublica {
   id: string;
   identifier: string;
@@ -32,7 +36,7 @@ export interface DetalleAlertaPublica {
   };
 }
 
-export type FalloPublico = 'no-disponible' | 'error' | 'respuesta-invalida';
+export type FalloPublico = 'no-encontrada' | 'no-disponible' | 'error' | 'respuesta-invalida';
 
 function esObjeto(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -40,7 +44,7 @@ function esObjeto(value: unknown): value is Record<string, unknown> {
 
 function esResumen(value: unknown): value is AlertaPublica {
   return esObjeto(value) &&
-    typeof value.id === 'string' && UUID.test(value.id) &&
+    esUuidPublico(value.id) &&
     typeof value.identifier === 'string' && value.identifier.length > 0 &&
     value.lifecycleState === 'PUBLISHED' &&
     value.anchorStatus === 'CONFIRMED' &&
@@ -56,7 +60,8 @@ async function json(response: Response): Promise<unknown> {
 }
 
 function clasificar(response: Response): FalloPublico {
-  if (response.status === 404 || response.status === 405 || response.status === 501 || response.status === 503) {
+  if (response.status === 404) return 'no-encontrada';
+  if (response.status === 405 || response.status === 501 || response.status === 503) {
     return 'no-disponible';
   }
   return response.status >= 500 ? 'error' : 'respuesta-invalida';
@@ -119,7 +124,7 @@ export async function listarAlertasPublicas(): Promise<
 export async function obtenerAlertaPublica(id: string): Promise<
   { ok: true; detalle: DetalleAlertaPublica } | { ok: false; motivo: FalloPublico }
 > {
-  if (!UUID.test(id)) return { ok: false, motivo: 'respuesta-invalida' };
+  if (!esUuidPublico(id)) return { ok: false, motivo: 'respuesta-invalida' };
   try {
     const response = await fetch(`${BASE_API}/alerts/${encodeURIComponent(id)}`, {
       credentials: 'same-origin',

@@ -7,7 +7,8 @@ import { EstadoCarga, EstadoError, EstadoVacio } from '../interno/signature/Comp
 import { listarAlertasPublicas, obtenerAlertaPublica, type AlertaPublica } from './cliente-publico';
 import './publico.css';
 
-function mensajeFallo(motivo: 'no-disponible' | 'error' | 'respuesta-invalida'): string {
+function mensajeFallo(motivo: 'no-encontrada' | 'no-disponible' | 'error' | 'respuesta-invalida'): string {
+  if (motivo === 'no-encontrada') return 'La alerta no se encontró. Puede no estar publicada o ya no estar disponible.';
   if (motivo === 'no-disponible') return 'Servicio público no disponible. No se mostrarán datos DEMO como sustituto.';
   if (motivo === 'respuesta-invalida') return 'La API devolvió una respuesta no válida. No se mostrarán alertas sin forma verificable.';
   return 'No fue posible consultar el servicio público. No se mostrarán datos DEMO como sustituto.';

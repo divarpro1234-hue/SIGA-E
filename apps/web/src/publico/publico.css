@@ -98,3 +98,59 @@
   margin: 0;
   color: var(--c-alerta);
 }
+
+.pasaporte-seccion h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.pasaporte-simulacro {
+  display: inline-block;
+  margin: 0 0 14px;
+}
+
+.pasaporte-datos {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.35fr) minmax(0, 1fr);
+  gap: 8px 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.pasaporte-datos dt {
+  color: var(--c-tinta-suave);
+  font-weight: 600;
+}
+
+.pasaporte-datos dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.pasaporte-hashes dd {
+  font-family: var(--f-tecnica);
+  font-size: 0.82rem;
+}
+
+.pasaporte-aviso {
+  margin: 0;
+  padding: 12px;
+  color: var(--c-tinta);
+  background: rgba(255, 190, 92, 0.1);
+  border-inline-start: 3px solid var(--c-alerta);
+  line-height: 1.5;
+}
+
+@media (max-width: 520px) {
+  .pasaporte-datos {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+
+  .pasaporte-datos dd {
+    margin-bottom: 8px;
+  }
+}
