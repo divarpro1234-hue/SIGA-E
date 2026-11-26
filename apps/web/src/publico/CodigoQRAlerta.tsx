@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
 import type { AlertaPublica } from './cliente-publico';
+import { ImagenCodigoQR } from './ImagenCodigoQR';
 import {
   abrirDialogoQr,
   abrirPasaporteDesdeQr,
@@ -83,13 +83,8 @@ export function CodigoQRAlerta({ alerta, enlace, origen, disparador, onCerrar, o
       <p className="qr-simulacro" id="qr-dialogo-descripcion">SIMULACRO ACADÉMICO</p>
       <p className="qr-identificador">Alerta: <strong>{alerta.identifier}</strong></p>
       <div className="qr-imagen">
-        <QRCodeSVG
+        <ImagenCodigoQR
           value={enlace}
-          size={240}
-          level="M"
-          includeMargin
-          bgColor="#ffffff"
-          fgColor="#111827"
           title={`Código QR del pasaporte público de ${alerta.identifier}`}
         />
       </div>

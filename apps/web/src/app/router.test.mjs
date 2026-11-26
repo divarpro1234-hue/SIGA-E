@@ -26,6 +26,11 @@ test('resolverRuta: rutas conocidas', () => {
     ruta: '/verificar/resultado',
     conocida: true,
   });
+  assert.deepEqual(resolverRuta('/demo/pasaporte'), {
+    nombre: 'demo-pasaporte',
+    ruta: '/demo/pasaporte',
+    conocida: true,
+  });
 });
 
 test('resolverRuta: pasaporte público conserva el ID de la ruta para validarlo antes de consultar', () => {
@@ -99,7 +104,7 @@ test('resolverRuta: rutas internas conocidas, sin parámetros', () => {
 
 test('esRutaInterna: separa los dos portales', () => {
   for (const n of ['acceso', 'codigo', 'portal', 'portal-alertas', 'portal-revision', 'portal-administracion']) assert.equal(esRutaInterna(n), true, n);
-  for (const n of ['inicio', 'verificar', 'resultado', 'pasaporte', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
+  for (const n of ['inicio', 'verificar', 'resultado', 'pasaporte', 'demo-pasaporte', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
 });
 
 test('redireccion: el código TOTP sin desafío en memoria vuelve al acceso', () => {

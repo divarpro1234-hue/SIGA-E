@@ -99,10 +99,21 @@
   color: var(--c-alerta);
 }
 
-.demo-qr-local h2 {
+.demo-qr-local h2,
+.demo-pasaporte-seccion h2 {
   margin: 0;
   color: #fff;
   font-size: 1.15rem;
+}
+
+.demo-qr-aviso,
+.demo-pasaporte-aviso {
+  margin: 0;
+  padding: 12px;
+  color: #1b1200;
+  background: #ffbf47;
+  border-radius: var(--r-medio);
+  font-weight: 800;
 }
 
 .demo-qr-local p {
