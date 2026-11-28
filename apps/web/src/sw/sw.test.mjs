@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { test } from 'node:test';
-import { normalizarRuta, RUTAS } from '../app/router.mjs';
+import { normalizarRuta, RUTAS, RUTAS_PASAPORTES_DEMO } from '../app/router.mjs';
 import { calcularVersion, construirPrecache, renderizarSw } from './precache.mjs';
 
 const ORIGEN = 'https://siga.test';
@@ -31,7 +31,12 @@ function cargar({ cacheos = {}, red = async () => basica('red') } = {}) {
     { ruta: 'assets/app.js', sha256: H },
   ]);
   const version = calcularVersion(entradas);
-  const codigo = renderizarSw(readFileSync(new URL('./sw.js', import.meta.url), 'utf8'), version, entradas, Object.values(RUTAS));
+  const codigo = renderizarSw(
+    readFileSync(new URL('./sw.js', import.meta.url), 'utf8'),
+    version,
+    entradas,
+    [...Object.values(RUTAS), ...RUTAS_PASAPORTES_DEMO],
+  );
   const oyentes = {};
   const almacenes = new Map(Object.entries(cacheos).map(([n, c]) => [n, new Map(Object.entries(c))]));
   const borradas = [];
@@ -175,8 +180,26 @@ test('navegación a la API o a sw.js: no se intercepta, con o sin conexión', ()
 test('paridad: el service worker resuelve las rutas como router.mjs', async () => {
   const c = cargar({ red: async () => basica('red') });
   c.almacenes.set(`siga-e-${c.version}`, new Map([['/index.html', basica('concha')]]));
-  const entradas = ['/', '/verificar', '/verificar/', '/verificar//', '/verificar/resultado/', '//verificar', '/Verificar', '/verificar/otra', '/resultado', '/verificar%2Fresultado'];
-  const conocidas = new Set(Object.values(RUTAS));
+  const entradas = [
+    '/',
+    '/verificar',
+    '/verificar/',
+    '/verificar//',
+    '/verificar/resultado/',
+    '/demo/pasaporte/crecida-rio-ficticio',
+    '/demo/pasaporte/deslizamiento-ficticio/',
+    '/demo/pasaporte/interrupcion-vial',
+    '/demo/pasaporte/no-existe',
+    '//verificar',
+    '/Verificar',
+    '/verificar/otra',
+    '/resultado',
+    '/verificar%2Fresultado',
+  ];
+  const conocidas = new Set([
+    ...Object.values(RUTAS),
+    ...RUTAS_PASAPORTES_DEMO,
+  ]);
   for (const ruta of entradas) {
     const e = evento(`${ORIGEN}${ruta}`, { mode: 'navigate' });
     c.oyentes.fetch(e);

@@ -11,6 +11,7 @@ import { Resultado } from './pantallas/Resultado';
 import { Verificar } from './pantallas/Verificar';
 import { PasaporteAlerta } from './publico/PasaporteAlerta';
 import { PasaporteDemo } from './publico/PasaporteDemo';
+import { PasaporteDemoIndividual } from './publico/PasaporteDemoIndividual';
 import { AppInterna } from './interno/AppInterna';
 import { useDesafio } from './interno/sesion';
 
@@ -65,6 +66,7 @@ export function App() {
         {nombre === 'resultado' ? <Resultado /> : null}
         {nombre === 'pasaporte' ? <PasaporteAlerta id={ruta.id ?? ''} /> : null}
         {nombre === 'demo-pasaporte' ? <PasaporteDemo /> : null}
+        {nombre === 'demo-pasaporte-individual' ? <PasaporteDemoIndividual slug={ruta.slug ?? ''} /> : null}
         {nombre === 'no-existe' ? <NoExiste /> : null}
       </main>
       <p className="sr-only" role="status" aria-live="polite">

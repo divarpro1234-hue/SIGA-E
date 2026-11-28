@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RUTAS } from '../src/app/router.mjs';
+import { RUTAS, RUTAS_PASAPORTES_DEMO } from '../src/app/router.mjs';
 import { calcularVersion, construirPrecache, renderizarSw } from '../src/sw/precache.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -34,7 +34,12 @@ for (const ruta of rutas) {
 const entradas = construirPrecache(archivos);
 if (!entradas.some((e) => e.url === '/index.html')) throw new Error('dist/ no contiene index.html');
 const version = calcularVersion(entradas);
-const salida = renderizarSw(await readFile(PLANTILLA, 'utf8'), version, entradas, Object.values(RUTAS));
+const salida = renderizarSw(
+  await readFile(PLANTILLA, 'utf8'),
+  version,
+  entradas,
+  [...Object.values(RUTAS), ...RUTAS_PASAPORTES_DEMO],
+);
 await writeFile(path.join(DIST, 'sw.js'), salida, 'utf8');
 
 console.log(`sw.js generado: versión ${version}, ${entradas.length} recursos en el precaché.`);

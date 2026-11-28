@@ -33,6 +33,24 @@ test('resolverRuta: rutas conocidas', () => {
   });
 });
 
+test('resolverRuta: reconoce únicamente los pasaportes demo permitidos', () => {
+  for (const slug of ['crecida-rio-ficticio', 'deslizamiento-ficticio', 'interrupcion-vial']) {
+    assert.deepEqual(resolverRuta(`/demo/pasaporte/${slug}`), {
+      nombre: 'demo-pasaporte-individual',
+      ruta: `/demo/pasaporte/${slug}`,
+      conocida: true,
+      slug,
+    });
+  }
+  for (const ruta of [
+    '/demo/pasaporte/no-existe',
+    '/demo/pasaporte/crecida-rio-ficticio/extra',
+    '/demo/pasaporte/%63recida-rio-ficticio',
+  ]) {
+    assert.equal(resolverRuta(ruta).conocida, false, ruta);
+  }
+});
+
 test('resolverRuta: pasaporte público conserva el ID de la ruta para validarlo antes de consultar', () => {
   const id = '00000000-0000-4000-8000-000000000001';
   assert.deepEqual(resolverRuta(`/alerta/${id}`), {
@@ -104,7 +122,7 @@ test('resolverRuta: rutas internas conocidas, sin parámetros', () => {
 
 test('esRutaInterna: separa los dos portales', () => {
   for (const n of ['acceso', 'codigo', 'portal', 'portal-alertas', 'portal-revision', 'portal-administracion']) assert.equal(esRutaInterna(n), true, n);
-  for (const n of ['inicio', 'verificar', 'resultado', 'pasaporte', 'demo-pasaporte', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
+  for (const n of ['inicio', 'verificar', 'resultado', 'pasaporte', 'demo-pasaporte', 'demo-pasaporte-individual', 'no-existe']) assert.equal(esRutaInterna(n), false, n);
 });
 
 test('redireccion: el código TOTP sin desafío en memoria vuelve al acceso', () => {

@@ -1,17 +1,19 @@
 // Lógica pura del enrutador propio. Sin DOM ni history: eso vive en ruta.ts.
-// El estado de verificación nunca viaja en la URL: solo hay rutas fijas, sin parámetros ni query.
+// El estado de verificación nunca viaja en la URL; los pasaportes demo aceptan solo slugs permitidos.
 
 // Portal interno (D08A): rutas fijas bajo /interno. Ni el desafío ni la sesión viajan en la URL;
 // la ruta solo elige la pantalla, y lo que se muestra depende de lo que confirme el servidor.
+import { obtenerPasaporteDemo, PASAPORTES_DEMO, rutaPasaporteDemo } from '../publico/pasaporte-demo.mjs';
 
 /**
- * @typedef {'inicio' | 'verificar' | 'resultado' | 'pasaporte' | 'demo-pasaporte'} RutaCiudadana
+ * @typedef {'inicio' | 'verificar' | 'resultado' | 'pasaporte' | 'demo-pasaporte'} RutaCiudadanaFija
+ * @typedef {RutaCiudadanaFija | 'demo-pasaporte-individual'} RutaCiudadana
  * @typedef {'acceso' | 'codigo' | 'portal' | 'portal-alertas' | 'portal-revision' | 'portal-administracion'} RutaInterna
  * @typedef {RutaCiudadana | RutaInterna | 'no-existe'} NombreRuta
- * @typedef {{ nombre: NombreRuta, ruta: string, conocida: boolean, id?: string }} RutaResuelta
+ * @typedef {{ nombre: NombreRuta, ruta: string, conocida: boolean, id?: string, slug?: string }} RutaResuelta
  */
 
-/** @type {Readonly<Record<RutaCiudadana | RutaInterna, string>>} */
+/** @type {Readonly<Record<RutaCiudadanaFija | RutaInterna, string>>} */
 export const RUTAS = Object.freeze({
   inicio: '/',
   verificar: '/verificar',
@@ -25,6 +27,10 @@ export const RUTAS = Object.freeze({
   'portal-revision': '/interno/revision',
   'portal-administracion': '/interno/administracion',
 });
+
+export const RUTAS_PASAPORTES_DEMO = Object.freeze(
+  PASAPORTES_DEMO.map(({ slug }) => rutaPasaporteDemo(slug)),
+);
 
 /** @type {ReadonlyArray<RutaInterna>} */
 const INTERNAS = ['acceso', 'codigo', 'portal', 'portal-alertas', 'portal-revision', 'portal-administracion'];
@@ -44,6 +50,7 @@ export const TITULOS = Object.freeze({
   resultado: 'Resultado',
   pasaporte: 'Pasaporte digital de alerta',
   'demo-pasaporte': 'Pasaporte Digital SIGA-E',
+  'demo-pasaporte-individual': 'Pasaporte demostrativo SIGA-E',
   acceso: 'Acceso interno',
   codigo: 'Código de verificación',
   portal: 'Portal interno',
@@ -78,6 +85,10 @@ export function resolverRuta(entrada) {
   const ruta = normalizarRuta(entrada);
   for (const nombre of /** @type {Array<keyof typeof RUTAS>} */ (Object.keys(RUTAS))) {
     if (RUTAS[nombre] === ruta) return { nombre, ruta, conocida: true };
+  }
+  const pasaporteDemo = ruta.match(/^\/demo\/pasaporte\/([^/]+)$/);
+  if (pasaporteDemo && obtenerPasaporteDemo(pasaporteDemo[1])) {
+    return { nombre: 'demo-pasaporte-individual', ruta, conocida: true, slug: pasaporteDemo[1] };
   }
   const pasaporte = ruta.match(/^\/alerta\/([^/]+)$/);
   if (pasaporte) return { nombre: 'pasaporte', ruta, conocida: true, id: pasaporte[1] };
