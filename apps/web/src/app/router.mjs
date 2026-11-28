@@ -5,7 +5,7 @@
 // la ruta solo elige la pantalla, y lo que se muestra depende de lo que confirme el servidor.
 
 /**
- * @typedef {'inicio' | 'verificar' | 'resultado' | 'pasaporte'} RutaCiudadana
+ * @typedef {'inicio' | 'verificar' | 'resultado' | 'pasaporte' | 'demo-pasaporte'} RutaCiudadana
  * @typedef {'acceso' | 'codigo' | 'portal' | 'portal-alertas' | 'portal-revision' | 'portal-administracion'} RutaInterna
  * @typedef {RutaCiudadana | RutaInterna | 'no-existe'} NombreRuta
  * @typedef {{ nombre: NombreRuta, ruta: string, conocida: boolean, id?: string }} RutaResuelta
@@ -17,6 +17,7 @@ export const RUTAS = Object.freeze({
   verificar: '/verificar',
   resultado: '/verificar/resultado',
   pasaporte: '/alerta',
+  'demo-pasaporte': '/demo/pasaporte',
   acceso: '/interno/acceso',
   codigo: '/interno/acceso/codigo',
   portal: '/interno',
@@ -42,6 +43,7 @@ export const TITULOS = Object.freeze({
   verificar: 'Verificar un mensaje',
   resultado: 'Resultado',
   pasaporte: 'Pasaporte digital de alerta',
+  'demo-pasaporte': 'Pasaporte Digital SIGA-E',
   acceso: 'Acceso interno',
   codigo: 'Código de verificación',
   portal: 'Portal interno',
